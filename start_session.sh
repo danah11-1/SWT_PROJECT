@@ -6,6 +6,6 @@ if [ -f session.tmp ] ; then #check if there is already session activated
 fi
 
 #start time for session
-Start_Time=$(date '+%Y-%m-%d %H:%:%S')
+Start_Time=$(date '+%Y-%m-%d %H:%M:%S')
 echo "START:$Start_Time" > session.tmp
 echo "The session have started: $Start_Time" 

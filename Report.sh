@@ -1,12 +1,12 @@
 #!/bin/bash
 File="logs/session_log.txt"
-if[ ! -f "$File" ]; then
+if [ ! -f "$File" ]; then
   echo "NO session log found"
   exit 1
 fi
 
 
-Total_Session=$(wc -l < "File")
+Total_Session=$(wc -l < "$File")
 echo "Total Session: $Total_Session"
 
 
@@ -26,7 +26,7 @@ while read -r line; do
 
      if [ "$Session_Seconds" -gt "$Longest_Session" ]; then
         Longest_Session=$Session_Seconds
-     if  
+     fi  
 
      if [ "$Min" -ge 45 ]; then
         echo "$line"
@@ -46,7 +46,7 @@ if [ "$Session_Count" -gt 0 ]; then
 else
    Average_Hours=0
    Average_Minutes=0
-if
+fi
 
 
  #Display 
@@ -54,7 +54,9 @@ if
  echo "Longest session: $((Longest_Session / 60))m $((Longest_Session % 60))s"
  echo "Average session: $Average_Hours h $Average_Minutes m"
 
- 
+git add logs/session_log.txt
+git commit -m "Update session: $(date '+%Y-%m-%d %H:%M:%S')"
+git push origin main
 
 
 

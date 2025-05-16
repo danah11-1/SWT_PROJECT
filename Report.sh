@@ -11,5 +11,8 @@ echo "Total Session: $Total_Session"
 
 #Total duration in seconds
 Total_Duration=0
-Longest_
+Longest_Session=0
+Session_Count=0
+
+
  

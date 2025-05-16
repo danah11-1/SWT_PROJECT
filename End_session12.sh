@@ -3,6 +3,13 @@ if [ ! -f session.tmp ]; then
    echo "No active session found."
    exit 1
 fi
+   echo "Do you want to save the session? [y/n]"
+   read answer
+if [[ "$answer" != "y" ]]; then
+   rm session.tmp
+   echo "Session canceled without saving."
+   exit 0
+fi
 START_TIME=$(grep "START:" session.tmp | sed 's/START://')
 END_TIME=&(data '+%Y-%m-%d%H:%M:%S')
 

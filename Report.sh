@@ -54,9 +54,6 @@ fi
  echo "Longest session: $((Longest_Session / 60))m $((Longest_Session % 60))s"
  echo "Average session: $Average_Hours h $Average_Minutes m"
 
-git add logs/session_log.txt
-git commit -m "Update session: $(date '+%Y-%m-%d %H:%M:%S')"
-git push origin main
 
 
 

@@ -18,7 +18,7 @@ END_S=&(data -d "$END_TIME" +%s)
 DURATION=$((END_S - START_S))
 
 H=$((DURATION / 3600))
-M=$(( (DURATION % 3600) / 60))
+M=$(( (DURATION % 3600) / 60 ))
 S=$((DURATION % 60))
 
 LOG_LINE="Data: $(data '+%Y-%m-%d') | Start: $START_TIME | End: $END_TIME | Duration: ${H}h ${M}m ${S}s"

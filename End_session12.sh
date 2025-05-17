@@ -1,4 +1,4 @@
-#!/bin/bash
+O#!/bin/bash
 if [ ! -f session.tmp ]; then
    echo "No active session found."
    exit 1
@@ -11,17 +11,17 @@ if [[ "$answer" != "y" ]]; then
    exit 0
 fi
 START_TIME=$(grep "START:" session.tmp | sed 's/START://')
-END_TIME=&(data '+%Y-%m-%d%H:%M:%S')
+END_TIME=&(date '+%Y-%m-%d%H:%M:%S')
 
-START_S=&(data -d "$START_TIME" +%s)
-END_S=&(data -d "$END_TIME" +%s)
+START_S=&(date -d "$START_TIME" +%s)
+END_S=&(date -d "$END_TIME" +%s)
 DURATION=$((END_S - START_S))
 
 H=$((DURATION / 3600))
-M=$((DURATION % 3600) / 60))
+M=$(( (DURATION % 3600) / 60))
 S=$((DURATION % 60))
 
-LOG_LINE="Data: $(data '+%Y-%m-%d') | Start: $START_TIME | End: $END_TIME | Duration: ${H}h ${M}m ${S}s"
+LOG_LINE="Date: $(date '+%Y-%m-%d') | Start: $START_TIME | End: $END_TIME | Duration: ${H}h ${M}m ${S}s"
 
 mkdir -p logs
 touch logs/session_log.txt

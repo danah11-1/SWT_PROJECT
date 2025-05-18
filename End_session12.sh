@@ -1,5 +1,5 @@
-#!/bin/bash
 
+!/bin/bash
 # Check if session.tmp file exists
 if [ ! -f session.tmp ]; then
    echo "No active session found."
@@ -19,7 +19,6 @@ if [[ "$answer" != "y" ]]; then
 fi
 # Extract START time from session.tmp
 START_TIME=$(grep "START:" session.tmp | sed 's/START://')
-
 # Get current time as End time (corrected data format)
 END_TIME=$(date '+%Y-%m-%d %H:%M:%S')  
 
@@ -30,8 +29,9 @@ END_S=$(date -d "$END_TIME" +%s)
 DURATION=$((END_S - START_S))
 # Break down duration into hours, minutes, and seconds
 H=$((DURATION / 3600))
-M=$(( (DURATION % 3600) / 60))
+M=$(( (DURATION % 3600) / 60 ))
 S=$((DURATION % 60))
+
 
 
 # Create log entry with proper formatting

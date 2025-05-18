@@ -22,7 +22,7 @@ while read -r line; do
   echo "Min: $Min, Sec: $Sec"
 
   if [ -n "$Min" ] && [ -n "$Sec" ]; then
-     Session_Seconds=$((Min * 3600 + Sec * 60))
+     Session_Seconds=$((Min * 60 + Sec ))
      Total_Duration=$((Total_Duration + Session_Seconds))
      Session_Count=$((Session_Count + 1))
 

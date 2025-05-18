@@ -16,11 +16,13 @@ Session_Count=0
 
 echo -e "\nSessions Longer then 45 minutes:"
 while read -r line; do
-  Min=$(echo "$line" | grep -op '\d+(?=د)')
-  Sec=$(echo "$line" | grep -op '\d+(?=ث)' | head -1)
+  Min=$(echo "$line" | grep -oP '\d+(?=h)')
+  Sec=$(echo "$line" | grep -oP '\d+(?=m)' | head -1)
+  
+  echo "Min: $Min, Sec: $Sec"
 
   if [ -n "$Min" ] && [ -n "$Sec" ]; then
-     Session_Seconds=$((Min * 60 + Sec))
+     Session_Seconds=$((Min * 3600 + Sec * 60))
      Total_Duration=$((Total_Duration + Session_Seconds))
      Session_Count=$((Session_Count + 1))
 
@@ -28,7 +30,7 @@ while read -r line; do
         Longest_Session=$Session_Seconds
      fi  
 
-     if [ "$Min" -ge 45 ]; then
+     if [ "$Session_Seconds" -ge 2700 ]; then
         echo "$line"
      fi
   fi  

@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # Check if session.tmp file exists
 if [ ! -f session.tmp ]; then

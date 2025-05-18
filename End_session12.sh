@@ -32,8 +32,6 @@ M=$(( (DURATION % 3600) / 60 ))
 S=$((DURATION % 60))
 
 
-LOG_LINE="Data: $(date '+%Y-%m-%d') | Start: $START_TIME | End: $END_TIME | Duration: ${H}h ${M}m ${S}s"
-
 
 # Create log entry with proper formatting
 LOG_LINE="Date: $(date '+%Y-%m-%d') | Start: $START_TIME | End: $END_TIME | Duration: ${H}h ${M}m ${S}s"

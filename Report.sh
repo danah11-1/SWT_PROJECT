@@ -27,8 +27,6 @@
     Min=$(echo "$line" | grep -oP '\d+(?=h)')
     Sec=$(echo "$line" | grep -oP '\d+(?=m)' | head -1)
   
-   
-
    # Check if minutes and seconds are present
    if [ -n "$Min" ] && [ -n "$Sec" ]; then
       # Calculate session duration in seconds
@@ -43,7 +41,7 @@
 
       # Print sessions longer than 45 minutes (2700 seconds)
       if [ "$Session_Seconds" -ge 2700 ]; then
-         echo "$line"
+         long_Sessions+="$line\n"
       fi
    fi  
  done < "$File"
@@ -66,3 +64,10 @@
  echo -e "\nTotal time: $Total_Hours h $Total_Minutes m"
  echo "Longest session: $((Longest_Session / 60))m $((Longest_Session % 60))s"
  echo "Average session: $Average_Hours h $Average_Minutes m"
+ 
+ # Print sessions longer than 45 minutes
+if [ -n "$Long_Sessions" ]; then
+    echo -e "\nSessions Longer than 45 minutes:"
+    echo -e "$Long_Sessions"
+fi
+ 

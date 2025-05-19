@@ -18,7 +18,6 @@ Total_Duration=0
 Longest_Session=0
 Session_Count=0
 Long_Sessions=""  # Store sessions longer than 45 minutes
-All_Sessions=""   # Store all session details (not used in the current logic)
 
 # Read each line from the session log file
 while read -r line; do

@@ -44,13 +44,18 @@
          echo = "$line"
       fi
       
-      # Loop to print the extracted values
-     for value in "Min: $Min" "Sec: $Sec"; do
-        echo "$value"
-     done
    fi  
  done < "$File"
-
+ 
+ while read -r line; do
+    # Extract minutes and seconds from the line
+    Min=$(echo "$line" | grep -oP '\d+(?=h)')
+    Sec=$(echo "$line" | grep -oP '\d+(?=m)' | head -1)
+    
+     # Print the extracted values
+  echo "Min: $Min, Sec: $Sec"
+ done < "$File"
+ 
  # Calculate total time in hours and minutes
  Total_Hours=$((Total_Duration / 3600))
  Total_Minutes=$(((Total_Duration % 3600) / 60))

@@ -1,78 +1,64 @@
 #!/bin/bash
 
- # Define the path to the session log file
- File="logs/session_log.txt"
+File="logs/session_log.txt"
 
- # Check if the log file exists
- if [ ! -f "$File" ]; then
+if [ ! -f "$File" ]; then
     echo "NO session log found"
     exit 1
- fi
+fi
 
- # Count the total number of sessions
- Total_Session=$(wc -l < "$File")
- echo "Total Session: $Total_Session"
+Total_Session=$(wc -l < "$File")
+echo "Total Sessions: $Total_Session"
 
- # Initialize variables to calculate session duration
- Total_Duration=0
- Longest_Session=0
- Session_Count=0
+Total_Duration=0
+Longest_Session=0
+Session_Count=0
+Long_Sessions=""
+All_Sessions=""
 
- # Print the header for sessions longer than 45 minutes
- echo -e "\nSessions Longer than 45 minutes:"
+while read -r line; do
+    # Extract hours and minutes with fallback to 0
+    Hours=$(echo "$line" | grep -oP '\d+(?=h)')
+    Minutes=$(echo "$line" | grep -oP '\d+(?=m)')
 
- # Read each line from the log file
- while read -r line; do
-    # Extract minutes and seconds from the line
-    Min=$(echo "$line" | grep -oP '\d+(?=h)'|| echo 0)
-    Sec=$(echo "$line" | grep -oP '\d+(?=m)' | head -1 || echo 0)
-  
-   # Check if minutes and seconds are present
-   if [ -n "$Min" ] && [ -n "$Sec" ]; then
-      # Calculate session duration in seconds
-      Session_Seconds=$((Min * 60 + Sec ))
-      Total_Duration=$((Total_Duration + Session_Seconds))
-      Session_Count=$((Session_Count + 1))
+    Hours=${Hours:-0}
+    Minutes=${Minutes:-0}
 
-      # Update longest session if the current session is longer
-      if [ "$Session_Seconds" -gt "$Longest_Session" ]; then
-         Longest_Session=$Session_Seconds
-      fi  
+    # Convert to seconds
+    Session_Seconds=$((Hours * 3600 + Minutes * 60))
 
-      # Print sessions longer than 45 minutes (2700 seconds)
-      if [ "$Session_Seconds" -ge 2700 ]; then
-         Long_Sessions+="$line\n"
-      fi
-      
-      All_Sessions+="$line\n"
-   fi  
- done < "$File"
- 
-  echo -e "\nSessions Longer than 45 minutes:"
-  echo -e "$Long_Sessions"
- 
-  echo -e "\nAll sessions: "
-  echo -e "$All_Sessions"
-  
+    if [ "$Session_Seconds" -gt 0 ]; then
+        Total_Duration=$((Total_Duration + Session_Seconds))
+        Session_Count=$((Session_Count + 1))
 
- # Calculate total time in hours and minutes
- Total_Hours=$((Total_Duration / 3600))
- Total_Minutes=$(((Total_Duration % 3600) / 60))
+        if [ "$Session_Seconds" -gt "$Longest_Session" ]; then
+            Longest_Session=$Session_Seconds
+        fi
 
- # Calculate average session duration
- if [ "$Session_Count" -gt 0 ]; then 
+        if [ "$Session_Seconds" -ge 2700 ]; then
+            Long_Sessions+="$line\n"
+        fi
+    fi
+done < "$File"
+
+echo -e "\nSessions Longer than 45 minutes:"
+echo -e "$Long_Sessions"
+
+
+Total_Hours=$((Total_Duration / 3600))
+Total_Minutes=$(((Total_Duration % 3600) / 60))
+
+if [ "$Session_Count" -gt 0 ]; then 
     Average_Duration=$((Total_Duration / Session_Count))
     Average_Hours=$((Average_Duration / 3600))
     Average_Minutes=$(((Average_Duration % 3600) / 60))
- else
+else
     Average_Hours=0
     Average_Minutes=0
- fi
+fi
 
- # Display the results
- echo -e "\nTotal time: $Total_Hours h $Total_Minutes m"
- echo "Longest session: $((Longest_Session / 60))m $((Longest_Session % 60))s"
- echo "Average session: $Average_Hours h $Average_Minutes m"
- 
+echo -e "\nTotal time: $Total_Hours h $Total_Minutes m"
+echo "Longest session: $((Longest_Session / 60))m $((Longest_Session % 60))s"
+echo "Average session: $Average_Hours h $Average_Minutes m"
 
  

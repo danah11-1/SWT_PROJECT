@@ -41,8 +41,13 @@
 
       # Print sessions longer than 45 minutes (2700 seconds)
       if [ "$Session_Seconds" -ge 2700 ]; then
-         long_Sessions+="$line\n"
+         echo = "$line"
       fi
+      
+      # Loop to print the extracted values
+     for value in "Min: $Min" "Sec: $Sec"; do
+        echo "$value"
+     done
    fi  
  done < "$File"
 
@@ -65,9 +70,5 @@
  echo "Longest session: $((Longest_Session / 60))m $((Longest_Session % 60))s"
  echo "Average session: $Average_Hours h $Average_Minutes m"
  
- # Print sessions longer than 45 minutes
-if [ -n "$Long_Sessions" ]; then
-    echo -e "\nSessions Longer than 45 minutes:"
-    echo -e "$Long_Sessions"
-fi
+
  

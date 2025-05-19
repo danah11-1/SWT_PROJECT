@@ -27,8 +27,7 @@
     Min=$(echo "$line" | grep -oP '\d+(?=h)')
     Sec=$(echo "$line" | grep -oP '\d+(?=m)' | head -1)
   
-    # Print the extracted values
-    echo "Min: $Min, Sec: $Sec"
+   
 
    # Check if minutes and seconds are present
    if [ -n "$Min" ] && [ -n "$Sec" ]; then

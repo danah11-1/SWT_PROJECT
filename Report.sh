@@ -47,7 +47,7 @@
    fi  
  done < "$File"
  
- echo "\nprint all sessions"
+ echo -e "\nprint all sessions"
  while read -r line; do
     # Extract minutes and seconds from the line
     Min=$(echo "$line" | grep -oP '\d+(?=h)')

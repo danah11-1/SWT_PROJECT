@@ -24,8 +24,8 @@
  # Read each line from the log file
  while read -r line; do
     # Extract minutes and seconds from the line
-    Min=$(echo "$line" | grep -oP '\d+(?=h)')
-    Sec=$(echo "$line" | grep -oP '\d+(?=m)' | head -1)
+    Min=$(echo "$line" | grep -oP '\d+(?=h)'|| echo 0)
+    Sec=$(echo "$line" | grep -oP '\d+(?=m)' | head -1 || echo 0)
   
    # Check if minutes and seconds are present
    if [ -n "$Min" ] && [ -n "$Sec" ]; then
@@ -41,22 +41,20 @@
 
       # Print sessions longer than 45 minutes (2700 seconds)
       if [ "$Session_Seconds" -ge 2700 ]; then
-         echo = "$line"
+         Long_Sessions+="$line\n"
       fi
       
+      All_Sessions+="$line\n"
    fi  
  done < "$File"
  
- echo -e "\nprint all sessions"
- while read -r line; do
-    # Extract minutes and seconds from the line
-    Min=$(echo "$line" | grep -oP '\d+(?=h)')
-    Sec=$(echo "$line" | grep -oP '\d+(?=m)' | head -1)
-    
-     # Print the extracted values
-  echo "Min: $Min, Sec: $Sec"
- done < "$File"
+  echo -e "\nSessions Longer than 45 minutes:"
+  echo -e "$Long_Sessions"
  
+  echo -e "\nAll sessions: "
+  echo -e "$All_Sessions"
+  
+
  # Calculate total time in hours and minutes
  Total_Hours=$((Total_Duration / 3600))
  Total_Minutes=$(((Total_Duration % 3600) / 60))
